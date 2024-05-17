@@ -34,3 +34,7 @@ section {
     padding: 20px;
     text-align: center;
 }
+/* Remove bullets from list items */
+.no-bullets {
+    list-style-type: none;
+}
