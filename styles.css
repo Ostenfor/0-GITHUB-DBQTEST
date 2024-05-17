@@ -3,21 +3,19 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-}
-header {
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
-    text-align: center;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+    color: #333;
 }
 nav {
-    background-color: #f4f4f4;
+    background-color: #333;
     padding: 10px;
     text-align: center;
 }
 nav ul {
     list-style-type: none; /* Remove bullets from navigation links */
     padding: 0;
+    margin: 0;
 }
 nav ul li {
     display: inline;
@@ -25,25 +23,54 @@ nav ul li {
 }
 nav ul li a {
     text-decoration: none;
-    color: #333;
+    color: #fff;
+    font-weight: bold;
 }
 nav ul li a:hover {
-    color: #666;
+    color: #ddd;
+}
+.hero-image {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+.hero-image img {
+    width: 100%;
+    max-height: 600px; /* Set a maximum height for the image */
+    height: auto;
+    object-fit: cover; /* Ensure the image covers the container without distortion */
+}
+.hero-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 section {
-    padding: 40px 20px; /* Increased padding for more space */
-    text-align: center;
-    margin-bottom: 40px; /* Added margin-bottom for space between sections */
+    padding: 40px 20px;
+    margin: 0 auto;
+    max-width: 800px; /* Limit the width of the content for better readability */
+    background-color: white;
+    margin-bottom: 40px; /* Increased margin-bottom for more separation between sections */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow to sections */
+    border-radius: 8px; /* Add rounded corners to sections */
+}
+section h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+section p {
+    margin-bottom: 20px;
 }
 section ul {
     list-style-type: none; /* Remove bullets from lists within sections */
     padding: 0;
 }
-.hero-image {
-    position: relative;
-    text-align: center;
+section ul li {
+    margin-bottom: 10px;
 }
-.hero-image img {
-    width: 100%;
-    height: auto;
+section ul li strong {
+    color: #555;
 }
