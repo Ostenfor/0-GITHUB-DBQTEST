@@ -13,7 +13,7 @@ nav {
     text-align: center;
 }
 nav ul {
-    list-style-type: none; /* Remove bullets from navigation links */
+    list-style-type: none;
     padding: 0;
     margin: 0;
 }
@@ -36,9 +36,9 @@ nav ul li a:hover {
 }
 .hero-image img {
     width: 100%;
-    max-height: 600px; /* Set a maximum height for the image */
+    max-height: 600px;
     height: auto;
-    object-fit: cover; /* Ensure the image covers the container without distortion */
+    object-fit: cover;
 }
 .hero-text {
     position: absolute;
@@ -51,11 +51,11 @@ nav ul li a:hover {
 section {
     padding: 40px 20px;
     margin: 0 auto;
-    max-width: 800px; /* Limit the width of the content for better readability */
+    max-width: 800px;
     background-color: white;
-    margin-bottom: 40px; /* Increased margin-bottom for more separation between sections */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow to sections */
-    border-radius: 8px; /* Add rounded corners to sections */
+    margin-bottom: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 section h2 {
     color: #333;
@@ -65,7 +65,7 @@ section p {
     margin-bottom: 20px;
 }
 section ul {
-    list-style-type: none; /* Remove bullets from lists within sections */
+    list-style-type: none;
     padding: 0;
 }
 section ul li {
