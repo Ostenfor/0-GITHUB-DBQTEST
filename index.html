@@ -1,34 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test</title>
-    <link rel="stylesheet" href="index.css">
+    <title>Software Testing Website</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        nav {
+            background-color: #f4f4f4;
+            padding: 10px;
+            text-align: center;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+        }
+        nav ul li a:hover {
+            color: #666;
+        }
+        section {
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
 </head>
-
 <body>
-
-    <nav aria-label="Main Navigation">
+    <header>
+        <h1>Welcome to Software Testing Hub</h1>
+    </header>
+    <nav>
         <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Disclaimer</a></li>
+            <li><a href="#accessibility">Accessibility Testing</a></li>
+            <li><a href="#functional">Functional Testing</a></li>
+            <li><a href="#ui">UI Testing</a></li>
         </ul>
     </nav>
-
-    <div class="gallery" role="list">
-        <div class="item" role="listitem" tabindex="0" aria-label="car"><img
-                src="https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg?cs=srgb&dl=pexels-pixabay-210019.jpg&fm=jpg alt=""><h3>first car</h3><span>is use for transportation</span></div>
-        <div class=" item" role="listitem" tabindex="0" aria-label="car"><img
-                src="https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg?cs=srgb&dl=pexels-pixabay-210019.jpg&fm=jpg alt=""><h3>second car</h3><span>is use for transportation too</span></div>
-        <div class=" item" role="listitem" tabindex="0" aria-label="car"><img
-                src="https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg?cs=srgb&dl=pexels-pixabay-210019.jpg&fm=jpg alt=""><h3>third car</h3><span>is use for transportation also</span></div>
-    </div>
-
-
-
+    <section id="accessibility">
+        <h2>Accessibility Testing</h2>
+        <p>Accessibility testing ensures that your software is usable by people with disabilities.</p>
+        <!-- You can add more content or images related to accessibility testing here -->
+    </section>
+    <section id="functional">
+        <h2>Functional Testing</h2>
+        <p>Functional testing checks whether each function of the software application operates in conformance with the requirement specification.</p>
+        <!-- You can add more content or images related to functional testing here -->
+    </section>
+    <section id="ui">
+        <h2>UI Testing</h2>
+        <p>UI testing focuses on the user interface of the software application.</p>
+        <!-- You can add more content or images related to UI testing here -->
+    </section>
 </body>
-
 </html>
