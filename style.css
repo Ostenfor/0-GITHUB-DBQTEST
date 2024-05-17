@@ -36,5 +36,8 @@ section {
 }
 /* Remove bullets from list items */
 .no-bullets {
+    padding-left: 0;
+}
+.no-bullets li {
     list-style-type: none;
 }
