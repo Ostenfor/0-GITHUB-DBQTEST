@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Software Testing Website</title>
-    <!-- Add version to the stylesheet link to force reload -->
-    <link rel="stylesheet" href="styles.css?v=1.0">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="hero-image">
-        <img src="https://raw.githubusercontent.com/Ostenfor/0-GITHUB-DBQTEST/main/img/main.jpg" alt="Hero Image">
-        <div class="hero-text">
-            <h1>Welcome to Software Testing Hub</h1>
+    <header>
+        <div class="hero-image">
+            <img src="https://raw.githubusercontent.com/Ostenfor/0-GITHUB-DBQTEST/main/img/main.jpg" alt="Hero Image">
+            <div class="hero-text">
+                <h1>Welcome to Software Testing Hub</h1>
+            </div>
         </div>
-    </div>
+    </header>
+
     <nav>
         <ul>
             <li><a href="#accessibility">Accessibility Testing</a></li>
@@ -21,41 +23,47 @@
             <li><a href="#ui">UI Testing</a></li>
         </ul>
     </nav>
-    
-    <section id="functional">
-        <h2>Functional Testing</h2>
-        <p>Functional testing verifies that the software performs its intended functions correctly...</p>
-        <ul>
-            <li><strong>Unit Testing:</strong> Testing individual components to ensure they function correctly in isolation...</li>
-            <li><strong>Integration Testing:</strong> Testing the interaction between integrated components to identify any interface defects...</li>
-            <li><strong>System Testing:</strong> Verifying that the complete system works as intended and meets the specified requirements...</li>
-            <li><strong>Acceptance Testing:</strong> Ensuring the software meets business requirements and is ready for production use...</li>
-            <li><strong>Regression Testing:</strong> Re-running tests after changes to ensure that existing functionalities are not affected...</li>
-        </ul>
-    </section>
 
-    <section id="ui">
-        <h2>UI Testing</h2>
-        <p>UI testing involves verifying that the user interface of an application meets the required specifications...</p>
-        <ul>
-            <li><strong>Layout Verification:</strong> Checking that the layout is consistent across different devices and screen sizes...</li>
-            <li><strong>Usability Testing:</strong> Assessing how easy and intuitive the application is to use from the user's perspective...</li>
-            <li><strong>Cross-browser Testing:</strong> Ensuring the application works correctly across different web browsers...</li>
-            <li><strong>Responsive Design Testing:</strong> Verifying that the application is responsive and adapts to various screen resolutions...</li>
-            <li><strong>Visual Consistency:</strong> Making sure that the visual elements are consistent with the design specifications...</li>
-        </ul>
-    </section>
+    <main>
+        <section id="accessibility" tabindex="0">
+            <h2>Accessibility Testing</h2>
+            <p>Accessibility testing ensures that software applications are usable by people with disabilities. It involves evaluating the application's ability to be accessed and used by individuals with various disabilities, including visual, auditory, motor, and cognitive impairments.</p>
+            <ul>
+                <li><strong>Screen Reader Compatibility:</strong> Test with various screen readers to ensure all content is accessible to users who rely on screen readers to navigate the web.</li>
+                <li><strong>Color Contrast Testing:</strong> Ensure that text and background colors have sufficient contrast to be readable for users with low vision.</li>
+                <li><strong>Keyboard Navigation:</strong> Verify that all interactive elements can be accessed and operated using a keyboard alone, without relying on a mouse.</li>
+                <li><strong>Accessible Forms:</strong> Ensure that forms are properly labeled and structured to be usable with assistive technologies.</li>
+                <li><strong>ARIA Roles and Landmarks:</strong> Use ARIA roles and landmarks to improve the navigation and structure of the page for screen reader users.</li>
+            </ul>
+        </section>
 
-    <section id="accessibility">
-        <h2>Accessibility Testing</h2>
-        <p>Accessibility testing ensures that software applications are usable by people with disabilities...</p>
-        <ul>
-            <li><strong>Screen Reader Compatibility:</strong> Testing with various screen readers to ensure all content is accessible...</li>
-            <li><strong>Color Contrast Testing:</strong> Ensuring text and background colors have sufficient contrast to be readable...</li>
-            <li><strong>Keyboard Navigation:</strong> Making sure that all interactive elements can be accessed and operated using a keyboard...</li>
-            <li><strong>Accessible Forms:</strong> Verifying that forms are labeled correctly and usable with assistive technologies...</li>
-            <li><strong>ARIA Roles and Landmarks:</strong> Using ARIA roles to improve the navigation and structure for screen readers...</li>
-        </ul>
-    </section>
+        <section id="functional" tabindex="0">
+            <h2>Functional Testing</h2>
+            <p>Functional testing verifies that the software performs its intended functions correctly. It involves testing the different features and functionalities of the software to ensure that they meet the specified requirements.</p>
+            <ul>
+                <li><strong>Unit Testing:</strong> Test individual components in isolation to ensure they function correctly.</li>
+                <li><strong>Integration Testing:</strong> Test the interaction between integrated components to identify any interface defects.</li>
+                <li><strong>System Testing:</strong> Verify that the complete system works as intended and meets the specified requirements.</li>
+                <li><strong>Acceptance Testing:</strong> Ensure the software meets business requirements and is ready for production use.</li>
+                <li><strong>Regression Testing:</strong> Re-run tests after changes to ensure that existing functionalities are not affected.</li>
+            </ul>
+        </section>
+
+        <section id="ui" tabindex="0">
+            <h2>UI Testing</h2>
+            <p>UI testing involves verifying that the user interface of an application meets the required specifications. It ensures that the application is visually appealing, easy to use, and provides a seamless user experience.</p>
+            <ul>
+                <li><strong>Layout Verification:</strong> Check that the layout is consistent across different devices and screen sizes.</li>
+                <li><strong>Usability Testing:</strong> Assess how easy and intuitive the application is to use from the user's perspective.</li>
+                <li><strong>Cross-browser Testing:</strong> Ensure the application works correctly across different web browsers.</li>
+                <li><strong>Responsive Design Testing:</strong> Verify that the application is responsive and adapts to various screen resolutions.</li>
+                <li><strong>Visual Consistency:</strong> Ensure that the visual elements are consistent with the design specifications.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Software Testing Hub. All rights reserved.</p>
+    </footer>
 </body>
 </html>

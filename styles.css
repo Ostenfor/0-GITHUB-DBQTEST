@@ -74,3 +74,9 @@ section ul li {
 section ul li strong {
     color: #555;
 }
+
+/* Center the footer */
+footer {
+    text-align: center;
+    padding: 20px 0;
+}
