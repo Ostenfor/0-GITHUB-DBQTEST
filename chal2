@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Navigation Menu - Accessibility Issues</title>
+    <title>Navigation Menu - Accessibility Fixed</title>
     <style>
-            *{
-  text-decoration:none;
-  color:white;
-  background:black;
-} 
         body {
+                  *{
+  text-decoration:none;
+  color:black;
+} 
+          
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
@@ -61,7 +61,8 @@
                 menuItem.addEventListener('click', function (event) {
                     var dropdown = this.nextElementSibling;
                     if (dropdown) {
-                        var expanded = dropdown.style.display === 'block';
+                        var expanded = this.getAttribute('aria-expanded') === 'true';
+                        this.setAttribute('aria-expanded', !expanded);
                         dropdown.style.display = expanded ? 'none' : 'block';
                         event.preventDefault();
                     }
@@ -70,6 +71,7 @@
                 menuItem.addEventListener('focus', function () {
                     var dropdown = this.nextElementSibling;
                     if (dropdown) {
+                        this.setAttribute('aria-expanded', 'true');
                         dropdown.style.display = 'block';
                     }
                 });
@@ -77,6 +79,7 @@
                 menuItem.addEventListener('blur', function () {
                     var dropdown = this.nextElementSibling;
                     if (dropdown) {
+                        this.setAttribute('aria-expanded', 'false');
                         setTimeout(() => {
                             if (!dropdown.contains(document.activeElement)) {
                                 dropdown.style.display = 'none';
@@ -89,14 +92,17 @@
                 if (dropdownItems) {
                     dropdownItems.forEach(function (dropdownItem) {
                         dropdownItem.addEventListener('focus', function () {
+                            var parentMenuItem = this.closest('ul').previousElementSibling;
+                            parentMenuItem.setAttribute('aria-expanded', 'true');
                             this.closest('ul').style.display = 'block';
                         });
 
                         dropdownItem.addEventListener('blur', function () {
-                            var dropdown = this.closest('ul');
+                            var parentMenuItem = this.closest('ul').previousElementSibling;
                             setTimeout(() => {
-                                if (!dropdown.contains(document.activeElement)) {
-                                    dropdown.style.display = 'none';
+                                if (!this.closest('ul').contains(document.activeElement)) {
+                                    parentMenuItem.setAttribute('aria-expanded', 'false');
+                                    this.closest('ul').style.display = 'none';
                                 }
                             }, 100);
                         });
@@ -111,7 +117,7 @@
         <ul class="nav-menu">
             <li><a href="#">About</a></li>
             <li>
-                <a href="#">Menu</a>
+                <a href="#" aria-expanded="false">Menu</a>
                 <ul class="dropdown">
                     <li><a href="#" tabindex="0">Submenu 1</a></li>
                     <li><a href="#" tabindex="0">Submenu 2</a></li>
