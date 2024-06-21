@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Menu - Accessibility Issues</title>
+    <style>
+      *{
+  text-decoration:none;
+  color:white;
+  background:black;
+} 
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .nav-menu {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .nav-menu > li {
+            position: relative;
+            margin: 0 15px;
+        }
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            border: 1px solid #ccc;
+            list-style: none;
+            padding: 0;
+        }
+        .nav-menu > li:hover .dropdown {
+            display: block;
+        }
+        .nav-menu > li > a:focus + .dropdown,
+        .dropdown:focus-within {
+            display: block;
+        }
+        .dropdown > li {
+            margin: 0;
+        }
+        .dropdown > li > a {
+            display: block;
+            padding: 10px;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var menuItems = document.querySelectorAll('.nav-menu > li > a');
+            menuItems.forEach(function (menuItem) {
+                menuItem.addEventListener('click', function (event) {
+                    var dropdown = this.nextElementSibling;
+                    if (dropdown) {
+                        var expanded = dropdown.style.display === 'block';
+                        dropdown.style.display = expanded ? 'none' : 'block';
+                        event.preventDefault();
+                    }
+                });
+
+                menuItem.addEventListener('focus', function () {
+                    var dropdown = this.nextElementSibling;
+                    if (dropdown) {
+                        dropdown.style.display = 'block';
+                    }
+                });
+
+                menuItem.addEventListener('blur', function () {
+                    var dropdown = this.nextElementSibling;
+                    if (dropdown) {
+                        setTimeout(() => {
+                            if (!dropdown.contains(document.activeElement)) {
+                                dropdown.style.display = 'none';
+                            }
+                        }, 100);
+                    }
+                });
+
+                var dropdownItems = menuItem.nextElementSibling?.querySelectorAll('a');
+                if (dropdownItems) {
+                    dropdownItems.forEach(function (dropdownItem) {
+                        dropdownItem.addEventListener('focus', function () {
+                            this.closest('ul').style.display = 'block';
+                        });
+
+                        dropdownItem.addEventListener('blur', function () {
+                            var dropdown = this.closest('ul');
+                            setTimeout(() => {
+                                if (!dropdown.contains(document.activeElement)) {
+                                    dropdown.style.display = 'none';
+                                }
+                            }, 100);
+                        });
+                    });
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <nav>
+        <ul class="nav-menu">
+            <li><a href="#">About</a></li>
+            <li>
+                <a href="#">Menu</a>
+                <ul class="dropdown">
+                    <li><a href="#" tabindex="0">Submenu 1</a></li>
+                    <li><a href="#" tabindex="0">Submenu 2</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+</body>
+</html>
