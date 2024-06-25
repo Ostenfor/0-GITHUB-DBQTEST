@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility Testing Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #333;
+            padding: 1rem;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem;
+        }
+        .navbar a:hover {
+            background-color: #575757;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 4px 0;
+        }
+        @media (max-width: 768px) {
+            .navbar a {
+                display: none;
+            }
+            .hamburger {
+                display: flex;
+            }
+        }
+        .form-container {
+            margin: 2rem;
+        }
+        .social-icons img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="hamburger" aria-label="Menu" tabindex="0">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="nav-items">
+            <a href="#home" tabindex="1">Home</a>
+            <a href="#about" tabindex="2">About</a>
+            <a href="#services" tabindex="3">Services</a>
+            <a href="#contact" tabindex="4">Contact</a>
+            <a href="#blog" tabindex="5">Blog</a>
+            <a href="#portfolio" tabindex="6">Portfolio</a>
+            <a href="#testimonials" tabindex="7">Testimonials</a>
+            <div class="dropdown" aria-label="More" tabindex="8">
+                <a href="#more" class="dropbtn">More</a>
+                <div class="dropdown-content">
+                    <a href="#sub1" tabindex="9">Sub-item 1</a>
+                    <a href="#sub2" tabindex="10">Sub-item 2</a>
+                    <a href="#sub3" tabindex="11">Sub-item 3</a>
+                </div>
+            </div>
+            <a href="#faq" tabindex="12">FAQ</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="form-container" role="form" aria-labelledby="form-heading">
+            <h2 id="form-heading">Subscribe to our Newsletter</h2>
+            <form action="#" method="post">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required aria-required="true">
+                <button type="submit" aria-label="Submit">Subscribe</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="social-icons" role="contentinfo">
+            <img src="facebook.svg" aria-hidden="true">
+            <img src="twitter.svg" aria-hidden="true">
+            <img src="instagram.svg" aria-hidden="true">
+        </div>
+        <p aria-live="polite" aria-atomic="true" id="status-message"></p>
+    </footer>
+
+    <script>
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            const navItems = document.querySelectorAll('.navbar a');
+            navItems.forEach(item => item.style.display = item.style.display === 'block' ? 'none' : 'block');
+        });
+
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.getElementById('status-message').textContent = 'Thank you for subscribing!';
+        });
+    </script>
+</body>
+</html>
