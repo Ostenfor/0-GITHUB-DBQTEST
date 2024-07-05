@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Fashion Store - Fixed Version</title>
+    <title>Fashion Store - Buggy Version</title>
     <style>
         body {
             font-family: 'Helvetica Neue', sans-serif;
@@ -47,5 +47,130 @@
     </style>
 </head>
 <body>
+    <!-- Issue 1: Broken navbar -->
     <div class="navbar">
-        <a href="#home">
+        <a href="#home">Home</a>
+        <a href="#men">Men</a>
+        <a href="#women">Women</a>
+        <a href="#accessories">Accessories</a>
+        <a href="#contact">Contact</a>
+    </div>
+    <div class="header">
+        <h1>Welcome to Fashion Store</h1>
+        <p>Your one-stop shop for the latest fashion trends.</p>
+    </div>
+    <div class="section">
+        <h2>Featured Products</h2>
+        <!-- Issue 2: Missing closing tag for paragraph -->
+        <p>Check out our latest collection of featured products.
+        <!-- Issue 3: Broken image link -->
+        <img src="invalid-image.jpg" alt="Featured Product">
+    </div>
+    <div class="section">
+        <h2>Men's Collection</h2>
+        <ul>
+            <!-- Issue 4: Missing closing </li> tags -->
+            <li>Shirts
+            <li>Pants
+            <li>Jackets
+        </ul>
+    </div>
+    <div class="section">
+        <h2>Women's Collection</h2>
+        <!-- Issue 5: Typo in text -->
+        <p>Discover our range of womens clothing.</p>
+        <!-- Issue 6: Broken link -->
+        <p>Shop now: <a href="invalid-link">Women's Collection</a></p>
+    </div>
+    <div class="section">
+        <h2>Accessories</h2>
+        <!-- Issue 7: Dropdown not functioning -->
+        <select>
+            <option>Select a category</option>
+        </select>
+    </div>
+    <div class="section">
+        <h2>Sale</h2>
+        <!-- Issue 8: Missing CSS class -->
+        <p>Don't miss our exclusive sale offers.</p>
+    </div>
+    <div class="section">
+        <h2>Customer Reviews</h2>
+        <!-- Issue 9: Extra closing div tags -->
+        <p>Read what our customers are saying about us.</p>
+    </div>
+    <div class="section">
+        <h2>Contact Us</h2>
+        <!-- Issue 10: Modal does not disappear when clicked -->
+        <button onclick="document.getElementById('myModal').style.display='block'">Open Modal</button>
+        <div id="myModal" style="display:none;">
+            <div style="background-color: white; padding: 20px; border: 1px solid #888;">
+                <span onclick="document.getElementById('myModal').style.display='none'" style="float:right; cursor:pointer;">&times;</span>
+                <p>Contact us through this form.</p>
+            </div>
+        </div>
+    </div>
+    <div class="section">
+        <h2>Newsletter Signup</h2>
+        <!-- Issue 11: Contact form with incorrect input types -->
+        <form>
+            <label for="name">Name:</label>
+            <input type="number" id="name" name="name"><br><br>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email"><br><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <div class="section">
+        <h2>Special Offers</h2>
+        <!-- Issue 12: JavaScript error -->
+        <button onclick="nonExistentFunction()">Click Me</button>
+    </div>
+    <div class="section">
+        <h2>Hidden Deals</h2>
+        <!-- Issue 13: Hidden text -->
+        <p style="display:none;">This text is hidden.</p>
+    </div>
+    <div class="section">
+        <h2>Dynamic Updates</h2>
+        <!-- Issue 14: Broken dynamic content -->
+        <div id="dynamicContent">Original Content</div>
+        <button onclick="document.getElementById('dynamicContent').innerHTML='New Content'">Update Content</button>
+    </div>
+    <div class="section">
+        <h2>About Us</h2>
+        <!-- Issue 15: Misaligned elements -->
+        <div style="float: left; width: 50%;">Our Story</div>
+        <div style="float: right; width: 50%;">Our Mission</div>
+    </div>
+    <div class="section">
+        <h2>Deprecated Section</h2>
+        <!-- Issue 16: Deprecated HTML tags -->
+        <font color="red">Deprecated HTML</font>
+    </div>
+    <div class="section">
+        <h2>FAQ</h2>
+        <!-- Issue 17: Incorrect HTML nesting -->
+        <ul>
+            <li>Question 1
+                <ul>
+                    <li>Answer 1</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="section">
+        <h2>Gallery</h2>
+        <!-- Issue 18: Missing alt attribute for image -->
+        <img src="valid-image.jpg">
+    </div>
+    <div class="section">
+        <h2>Accessibility</h2>
+        <!-- Issue 19: Inaccessible color contrast -->
+        <p style="color: yellow; background-color: white;">Inaccessible text color contrast</p>
+    </div>
+    <div class="footer">
+        <p>Thank you for visiting Fashion Store!</p>
+    </div>
+</body>
+</html>
