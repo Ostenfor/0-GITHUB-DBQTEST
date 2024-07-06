@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            margin-top: 20px;
+            font-size: 24px;
+            text-align: center;
+        }
+        .gallery-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px;
+        }
+        .gallery img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+        }
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 18px;
+            color: white;
+            background-color: red;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Image Gallery</h1>
+
+    <div class="gallery-container">
+        <div class="gallery">
+            <img src="https://media.istockphoto.com/id/1587601513/es/foto/d%C3%ADa-internacional-de-los-vuelos-espaciales-tripulados-concepto-de-d%C3%ADa-de-la-cosmon%C3%A1utica.jpg?s=2048x2048&w=is&k=20&c=DcH9XM1E-mz948AyQkP03dzIfM2oIGI669oUSEdrTFg=" alt="Image 1">
+            <img src="https://media.istockphoto.com/id/625499508/es/foto/waving-astronaut-renderizado-en-3d.jpg?s=2048x2048&w=is&k=20&c=h4xAK0hA_V8VcU07QysZca8KJCQWONwWK4PB7_aJXeM=" alt="Image 2">
+            <img src="https://media.istockphoto.com/id/1160659492/es/foto/astronauta-en-la-caminata-espacial-arte-de-ciencia-ficci%C3%B3n-elementos-de-esta-imagen-amueblada.jpg?s=2048x2048&w=is&k=20&c=CzDMbavkkJPWcwS7MkQmBIvUTIqKfTyroGdK-GFsncw=" alt="Image 3">
+            <img src="https://media.istockphoto.com/id/2156519083/es/foto/portrait-of-a-brave-astronaut-floating-outside-a-spaceship-holding-himself-to-the-rocket-with.jpg?s=2048x2048&w=is&k=20&c=Dt4ylhOhQBGhWXERXjzrDxXP495h2bfjFAPgO4XJ85Q=" alt="Image 4">
+            <img src="https://media.istockphoto.com/id/1410787752/es/foto/astronauta-flotando-en-el-espacio-cerca-de-la-tierra-y-la-luna.jpg?s=2048x2048&w=is&k=20&c=UiJV0RwFwectAKaeGDyUPUCN4HeRmpXToQZpJ3Kr-gs=" alt="Image 5">
+            <img src="https://media.istockphoto.com/id/1421849536/es/foto/astronauta-en-el-espacio-extraterrestre.jpg?s=2048x2048&w=is&k=20&c=6TDTZ9VlZX835079XYMvjdaj_dUfn1QjWh1RzNQ4HzY=" alt="Image 6">
+            <img src="https://media.istockphoto.com/id/957684910/es/foto/astronauta-volando-sobre-el-planeta-tierra-primer-plano.jpg?s=2048x2048&w=is&k=20&c=NT7N2ErmI2o6aIsJvjZFTJfim9sUWHFGdPAVXEu92sY=" alt="Image 7">
+            <img src="https://media.istockphoto.com/id/1253716119/es/foto/levitaci%C3%B3n-de-astronauta-en-el-espacio-renderizado-en-3d.jpg?s=2048x2048&w=is&k=20&c=D7fEOEUoiDNiLp5qemPoLugxOj_FPWgqMWlUVm6Sup4=" alt="Image 8">
+            <img src="https://media.istockphoto.com/id/491695590/es/foto/hermoso-cat-en-el-espacio-extraterrestre-ciertos-elementos-de-esta-imagen-amueblada.jpg?s=2048x2048&w=is&k=20&c=QPxSZEBBvK-m0lbDUQ9CxOX4DcTPDdXEaoE_aUerj8Q=" alt="Image 9">
+        </div>
+    </div>
+
+    <div class="modal" id="modal">
+        <span class="close" id="closeBtn">&times;</span>
+        <img id="modalImg" src="" alt="">
+    </div>
+
+    <script>
+        const images = document.querySelectorAll('.gallery img');
+        const modal = document.getElementById('modal');
+        const modalImg = document.getElementById('modalImg');
+        const closeBtn = document.getElementById('closeBtn');
+
+        images.forEach(img => {
+            img.addEventListener('click', () => {
+                modal.style.display = 'flex';
+                modalImg.src = img.src;
+            })
+        });
+
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent closing the modal
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target == modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+</html>
