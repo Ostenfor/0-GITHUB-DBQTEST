@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo App</title>
+    <style>
+        .low-priority {
+            color: green;
+        }
+        .medium-priority {
+            color: orange;
+        }
+        .high-priority {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Todo App</h1>
+    
+    <form id="todo-form">
+        <input type="text" id="todo-text" placeholder="Enter task">
+        <input type="date" id="todo-date">
+        <select id="todo-priority">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+        </select>
+        <button type="submit">Add Todo</button>
+    </form>
+    
+    <ul id="todo-list">
+        <!-- Todo items will be dynamically added here -->
+    </ul>
+    
+    <script>
+        // Sample todo data
+        const todos = [];
+        
+        // Sort todos by priority and due date
+        todos.sort((a, b) => {
+            if (a.priority === b.priority) {
+                return new Date(a.dueDate) - new Date(b.dueDate);
+            }
+            return a.priority === 'high' ? -1 : 1;
+        });
+        
+        // Render todos
+        const todoList = document.getElementById('todo-list');
+        todos.forEach(todo => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `
+                <span>${todo.text}</span>
+                <span>Due: ${todo.dueDate}</span>
+                <span class="${todo.priority}-priority">${todo.priority}</span>
+                <button>Edit</button>
+            `;
+            todoList.appendChild(listItem);
+        });
+        
+        // Add todo event listener
+        const todoForm = document.getElementById('todo-form');
+        todoForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const todoText = document.getElementById('todo-text').value;
+            const todoDate = document.getElementById('todo-date').value;
+            const todoPriority = document.getElementById('todo-priority').value;
+            
+            const newTodo = {
+                id: todos.length + 1,
+                text: todoText,
+                dueDate: todoDate,
+                priority: todoPriority
+            };
+            
+            todos.push(newTodo);
+            
+            // Sort todos by priority and due date
+            todos.sort((a, b) => {
+                if (a.priority === b.priority) {
+                    return new Date(a.dueDate) - new Date(b.dueDate);
+                }
+                return a.priority === 'high' ? -1 : 1;
+            });
+            
+            // Clear form inputs
+            document.getElementById('todo-text').value = '';
+            document.getElementById('todo-date').value = '';
+            
+            // Clear todo list
+            todoList.innerHTML = '';
+            
+            // Render todos
+            todos.forEach(todo => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <span>${todo.text}</span>
+                    <span>Due: ${todo.dueDate}</span>
+                    <span class="${todo.priority}-priority">${todo.priority}</span>
+                    <button>Edit</button>
+                `;
+                todoList.appendChild(listItem);
+            });
+        });
+    </script>
+</body>
+</html>
