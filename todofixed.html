@@ -18,14 +18,15 @@
     <h1>Todo App</h1>
     
     <form id="todo-form">
-        <input type="text" id="todo-text" placeholder="Enter task">
-        <input type="date" id="todo-date">
+        <input type="text" id="todo-text" placeholder="Enter task" required>
+        <input type="date" id="todo-date" required>
         <select id="todo-priority">
             <option value="low">Low</option>
             <option value="medium">Medium</option>
             <option value="high">High</option>
         </select>
-        <button type="submit">Add Todo</button>
+        <button type="submit" id="submit-button">Add Todo</button>
+        <button type="button" id="cancel-button" style="display: none;">Cancel</button>
     </form>
     
     <ul id="todo-list">
@@ -35,27 +36,64 @@
     <script>
         // Sample todo data
         const todos = [];
+        let editIndex = null;
         
-        // Sort todos by priority and due date
-        todos.sort((a, b) => {
-            if (a.priority === b.priority) {
-                return new Date(a.dueDate) - new Date(b.dueDate);
-            }
-            return a.priority === 'high' ? -1 : 1;
-        });
-        
-        // Render todos
-        const todoList = document.getElementById('todo-list');
-        todos.forEach(todo => {
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `
-                <span>${todo.text}</span>
-                <span>Due: ${todo.dueDate}</span>
-                <span class="${todo.priority}-priority">${todo.priority}</span>
-                <button>Edit</button>
-            `;
-            todoList.appendChild(listItem);
-        });
+        // Function to render todos
+        function renderTodos() {
+            // Sort todos by priority and due date
+            todos.sort((a, b) => {
+                const priorityOrder = {
+                    high: 1,
+                    medium: 2,
+                    low: 3
+                };
+                if (priorityOrder[a.priority] === priorityOrder[b.priority]) {
+                    return new Date(a.dueDate) - new Date(b.dueDate);
+                }
+                return priorityOrder[a.priority] - priorityOrder[b.priority];
+            });
+
+            // Clear todo list
+            const todoList = document.getElementById('todo-list');
+            todoList.innerHTML = '';
+
+            // Render todos
+            todos.forEach((todo, index) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <span>${todo.text}</span>
+                    <span>Due: ${todo.dueDate}</span>
+                    <span class="${todo.priority}-priority">${todo.priority}</span>
+                    <button class="edit-button" data-index="${index}">Edit</button>
+                    <button class="delete-button" data-index="${index}">Delete</button>
+                `;
+                todoList.appendChild(listItem);
+            });
+
+            // Add event listener to edit buttons
+            const editButtons = document.getElementsByClassName('edit-button');
+            Array.from(editButtons).forEach((button) => {
+                button.addEventListener('click', (e) => {
+                    editIndex = e.target.dataset.index;
+                    const todo = todos[editIndex];
+                    document.getElementById('todo-text').value = todo.text;
+                    document.getElementById('todo-date').value = todo.dueDate;
+                    document.getElementById('todo-priority').value = todo.priority;
+                    document.getElementById('submit-button').textContent = 'Save Todo';
+                    document.getElementById('cancel-button').style.display = 'inline';
+                });
+            });
+
+            // Add event listener to delete buttons
+            const deleteButtons = document.getElementsByClassName('delete-button');
+            Array.from(deleteButtons).forEach((button) => {
+                button.addEventListener('click', (e) => {
+                    const index = e.target.dataset.index;
+                    todos.splice(index, 1);
+                    renderTodos();
+                });
+            });
+        }
         
         // Add todo event listener
         const todoForm = document.getElementById('todo-form');
@@ -67,41 +105,38 @@
             const todoPriority = document.getElementById('todo-priority').value;
             
             const newTodo = {
-                id: todos.length + 1,
                 text: todoText,
                 dueDate: todoDate,
                 priority: todoPriority
             };
-            
-            todos.push(newTodo);
-            
-            // Sort todos by priority and due date
-            todos.sort((a, b) => {
-                if (a.priority === b.priority) {
-                    return new Date(a.dueDate) - new Date(b.dueDate);
-                }
-                return a.priority === 'high' ? -1 : 1;
-            });
+
+            if (editIndex !== null) {
+                todos[editIndex] = newTodo;
+                editIndex = null;
+                document.getElementById('submit-button').textContent = 'Add Todo';
+                document.getElementById('cancel-button').style.display = 'none';
+            } else {
+                todos.push(newTodo);
+            }
             
             // Clear form inputs
             document.getElementById('todo-text').value = '';
             document.getElementById('todo-date').value = '';
-            
-            // Clear todo list
-            todoList.innerHTML = '';
-            
-            // Render todos
-            todos.forEach(todo => {
-                const listItem = document.createElement('li');
-                listItem.innerHTML = `
-                    <span>${todo.text}</span>
-                    <span>Due: ${todo.dueDate}</span>
-                    <span class="${todo.priority}-priority">${todo.priority}</span>
-                    <button>Edit</button>
-                `;
-                todoList.appendChild(listItem);
-            });
+
+            renderTodos();
         });
+
+        // Cancel edit event listener
+        const cancelButton = document.getElementById('cancel-button');
+        cancelButton.addEventListener('click', () => {
+            editIndex = null;
+            document.getElementById('todo-text').value = '';
+            document.getElementById('todo-date').value = '';
+            document.getElementById('submit-button').textContent = 'Add Todo';
+            document.getElementById('cancel-button').style.display = 'none';
+        });
+        
+        renderTodos();
     </script>
 </body>
 </html>
