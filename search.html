@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Finder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f2f5;
+    }
+
+    header {
+      background-color: #282c34;
+      color: white;
+      padding: 20px;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    header input, header select, header button {
+      margin: 10px;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    header input {
+      width: calc(100% - 220px);
+      max-width: 300px;
+    }
+
+    header select, header button {
+      width: 180px;
+    }
+
+    header button {
+      cursor: pointer;
+      background-color: #61dafb;
+      color: #282c34;
+      font-size: 16px;
+    }
+
+    header button:hover {
+      background-color: #4fa3c1;
+    }
+
+    main {
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .container {
+      display: flex;
+      width: 100%;
+      max-width: 1200px;
+      gap: 20px;
+    }
+
+    .movie-list, .favorites-container {
+      margin: 10px;
+      padding: 20px;
+      width: calc(50% - 20px);
+      box-sizing: border-box;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: auto;
+    }
+
+    .movie-list h2, .favorites-container h2 {
+      margin: 0 0 10px 0;
+    }
+
+    .movie-list ul, .favorite-list ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      margin: 10px 0;
+      padding: 10px;
+      background: #e8eaf6;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    .rating-select {
+      margin-left: 10px;
+    }
+
+    .count-info {
+      margin-top: 20px;
+    }
+
+    .btn-remove, .btn-favorite {
+      background-color: #61dafb;
+      color: #282c34;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-left: 10px;
+    }
+
+    .btn-remove {
+      background-color: #ff6b6b;
+    }
+
+    .btn-remove:hover {
+      background-color: #ff4d4d;
+    }
+
+    .btn-favorite:hover {
+      background-color: #4fa3c1;
+    }
+
+    .rating-color {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: red;
+      color: white;
+      text-align: center;
+      line-height: 20px;
+      margin-left: 5px;
+    }
+
+    .rating-color-1 { background-color: #ff0000; }
+    .rating-color-2 { background-color: #ff6f6f; }
+    .rating-color-3 { background-color: #ffcc00; }
+    .rating-color-4 { background-color: #66cc66; }
+    .rating-color-5 { background-color: #0099ff; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Movie Finder</h1>
+    <input type="text" id="search" placeholder="Search by name...">
+    <br>
+    <select id="genre-select">
+      <option value="">Select Genre</option>
+      <option value="Action">Action</option>
+      <option value="Adventure">Adventure</option>
+      <option value="Animation">Animation</option>
+      <option value="Biography">Biography</option>
+      <option value="Comedy">Comedy</option>
+      <option value="Crime">Crime</option>
+      <option value="Drama">Drama</option>
+      <option value="Horror">Horror</option>
+      <option value="Mystery">Mystery</option>
+      <option value="Sci-Fi">Sci-Fi</option>
+      <option value="Western">Western</option>
+    </select>
+    <select id="year-select">
+      <option value="">Select Year</option>
+      <option value="1940">1940</option>
+      <option value="1942">1942</option>
+      <option value="1946">1946</option>
+      <option value="1950">1950</option>
+      <option value="1954">1954</option>
+      <option value="1957">1957</option>
+      <option value="1960">1960</option>
+      <option value="1964">1964</option>
+      <option value="1966">1966</option>
+      <option value="1968">1968</option>
+      <option value="1972">1972</option>
+      <option value="1975">1975</option>
+      <option value="1979">1979</option>
+      <option value="1980">1980</option>
+      <option value="1985">1985</option>
+      <option value="1988">1988</option>
+      <option value="1991">1991</option>
+      <option value="1993">1993</option>
+      <option value="1994">1994</option>
+      <option value="1995">1995</option>
+      <option value="1997">1997</option>
+      <option value="1998">1998</option>
+      <option value="1999">1999</option>
+      <option value="2000">2000</option>
+      <option value="2001">2001</option>
+      <option value="2002">2002</option>
+      <option value="2003">2003</option>
+      <option value="2006">2006</option>
+      <option value="2008">2008</option>
+      <option value="2010">2010</option>
+      <option value="2011">2011</option>
+      <option value="2014">2014</option>
+      <option value="2020">2020</option>
+      <option value="2021">2021</option>
+    </select>
+    <br>
+    <button onclick="filterMovies()">Search</button>
+    <button onclick="showAllMovies()">Show All Movies</button>
+  </header>
+  <main>
+    <div class="container">
+      <div class="movie-list">
+        <h2>Movie List</h2>
+        <ul id="movie-list"></ul>
+        <p id="no-results" style="display: none;">No movies found</p>
+      </div>
+      <div class="favorites-container">
+        <h2>Favorites</h2>
+        <ul id="favorite-list"></ul>
+        <div class="count-info">
+          <p id="favorite-count">Favorites: 0</p>
+          <p id="rated-count">Rated Movies: 0</p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script>
+    const movies = [
+  { id: 1, name: 'The Shawshank Redemption', year: 1994, genre: 'Drama' },
+  { id: 2, name: 'The Godfather', year: 1972, genre: 'Crime' },
+  { id: 3, name: 'The Dark Knight', year: 2008, genre: 'Action' },
+  { id: 4, name: '12 Angry Men', year: 1957, genre: 'Drama' },
+  { id: 5, name: "Schindler's List", year: 1993, genre: 'Biography' },
+  { id: 6, name: 'Pulp Fiction', year: 1994, genre: 'Crime' },
+  { id: 7, name: 'The Lord of the Rings: The Return of the King', year: 2003, genre: 'Adventure' },
+  { id: 8, name: 'The Good, the Bad and the Ugly', year: 1966, genre: 'Western' },
+  { id: 9, name: 'Fight Club', year: 1999, genre: 'Drama' },
+  { id: 10, name: 'Forrest Gump', year: 1994, genre: 'Drama' },
+  { id: 11, name: 'Inception', year: 2010, genre: 'Sci-Fi' },
+  { id: 12, name: 'The Matrix', year: 1999, genre: 'Sci-Fi' },
+  { id: 13, name: 'The Silence of the Lambs', year: 1991, genre: 'Thriller' },
+  { id: 14, name: 'One Flew Over the Cuckoo\'s Nest', year: 1975, genre: 'Drama' },
+  { id: 15, name: 'Goodfellas', year: 1990, genre: 'Crime' },
+  { id: 16, name: 'The Matrix', year: 1999, genre: 'Sci-Fi' },
+  { id: 17, name: 'The Silence of the Lambs', year: 1991, genre: 'Thriller' },
+  { id: 18, name: 'City of God', year: 2002, genre: 'Crime' },
+  { id: 19, name: 'Se7en', year: 1995, genre: 'Thriller' },
+  { id: 20, name: 'The Usual Suspects', year: 1995, genre: 'Crime' },
+  { id: 21, name: 'Léon: The Professional', year: 1994, genre: 'Action' },
+  { id: 22, name: 'The Lion King', year: 1994, genre: 'Animation' },
+  { id: 23, name: 'Saving Private Ryan', year: 1998, genre: 'Drama' },
+  { id: 24, name: 'Once Upon a Time in the West', year: 1968, genre: 'Western' },
+  { id: 25, name: 'American History X', year: 1998, genre: 'Drama' },
+  { id: 26, name: 'Interstellar', year: 2014, genre: 'Adventure' },
+  { id: 27, name: 'Casablanca', year: 1942, genre: 'Drama' },
+  { id: 28, name: 'City Lights', year: 1931, genre: 'Comedy' },
+  { id: 29, name: 'The Green Mile', year: 1999, genre: 'Drama' },
+  { id: 30, name: 'Psycho', year: 1960, genre: 'Horror' },
+  { id: 31, name: 'The Intouchables', year: 2011, genre: 'Biography' },
+  { id: 32, name: 'Modern Times', year: 1936, genre: 'Comedy' },
+  { id: 33, name: 'The Pianist', year: 2002, genre: 'Biography' },
+  { id: 34, name: 'The Departed', year: 2006, genre: 'Crime' },
+  { id: 35, name: 'Gladiator', year: 2000, genre: 'Action' },
+  { id: 36, name: 'Back to the Future', year: 1985, genre: 'Adventure' },
+  { id: 37, name: 'Terminator 2: Judgment Day', year: 1991, genre: 'Action' },
+  { id: 38, name: 'Whiplash', year: 2014, genre: 'Drama' },
+  { id: 39, name: 'The Prestige', year: 2006, genre: 'Drama' },
+  { id: 40, name: 'Memento', year: 2000, genre: 'Mystery' },
+  { id: 41, name: 'Apocalypse Now', year: 1979, genre: 'Drama' },
+  { id: 42, name: 'Alien', year: 1979, genre: 'Horror' },
+  { id: 43, name: 'Sunset Boulevard', year: 1950, genre: 'Drama' },
+  { id: 44, name: 'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb', year: 1964, genre: 'Comedy' },
+  { id: 45, name: 'The Great Dictator', year: 1940, genre: 'Comedy' },
+  { id: 46, name: 'Cinema Paradiso', year: 1988, genre: 'Drama' },
+  // Add 154 more movies here
+  { id: 47, name: 'The Godfather Part II', year: 1974, genre: 'Crime' },
+  { id: 48, name: 'The Dark Knight Rises', year: 2012, genre: 'Action' },
+  { id: 49, name: 'Joker', year: 2019, genre: 'Drama' },
+  { id: 50, name: 'Avengers: Endgame', year: 2019, genre: 'Action' },
+  { id: 51, name: 'Parasite', year: 2019, genre: 'Thriller' },
+  { id: 52, name: 'Spirited Away', year: 2001, genre: 'Animation' },
+  { id: 53, name: 'The Lion King', year: 1994, genre: 'Animation' },
+  { id: 54, name: 'Your Name', year: 2016, genre: 'Animation' },
+  { id: 55, name: 'Coco', year: 2017, genre: 'Animation' },
+  { id: 56, name: 'The Revenant', year: 2015, genre: 'Adventure' },
+  { id: 57, name: 'The Shape of Water', year: 2017, genre: 'Fantasy' },
+  { id: 58, name: 'Django Unchained', year: 2012, genre: 'Western' },
+  { id: 59, name: 'The Departed', year: 2006, genre: 'Crime' },
+  { id: 60, name: 'The Big Lebowski', year: 1998, genre: 'Comedy' },
+  { id: 61, name: 'The Princess Bride', year: 1987, genre: 'Fantasy' },
+  { id: 62, name: 'Moulin Rouge!', year: 2001, genre: 'Musical' },
+  { id: 63, name: 'The Grand Budapest Hotel', year: 2014, genre: 'Comedy' },
+  { id: 64, name: 'The Truman Show', year: 1998, genre: 'Drama' },
+  { id: 65, name: 'Her', year: 2013, genre: 'Romance' },
+  { id: 66, name: 'Oldboy', year: 2003, genre: 'Thriller' },
+  { id: 67, name: 'Blade Runner 2049', year: 2017, genre: 'Sci-Fi' },
+  { id: 68, name: 'Pan’s Labyrinth', year: 2006, genre: 'Fantasy' },
+  { id: 69, name: 'The Handmaiden', year: 2016, genre: 'Thriller' },
+  { id: 70, name: 'A Clockwork Orange', year: 1971, genre: 'Crime' },
+  { id: 71, name: 'The Hunt', year: 2012, genre: 'Drama' },
+  { id: 72, name: 'The Godfather Part III', year: 1990, genre: 'Crime' },
+  { id: 73, name: 'The Wolf of Wall Street', year: 2013, genre: 'Comedy' },
+  { id: 74, name: 'A Beautiful Mind', year: 2001, genre: 'Biography' },
+  { id: 75, name: 'The Bridge on the River Kwai', year: 1957, genre: 'War' },
+  { id: 76, name: 'Lawrence of Arabia', year: 1962, genre: 'Adventure' },
+  { id: 77, name: 'The Great Escape', year: 1963, genre: 'War' },
+  { id: 78, name: 'Jaws', year: 1975, genre: 'Thriller' },
+  { id: 79, name: 'E.T. the Extra-Terrestrial', year: 1982, genre: 'Sci-Fi' },
+  { id: 80, name: 'The Wizard of Oz', year: 1939, genre: 'Fantasy' },
+  { id: 81, name: 'North by Northwest', year: 1959, genre: 'Thriller' },
+  { id: 82, name: 'Vertigo', year: 1958, genre: 'Thriller' },
+  { id: 83, name: 'Rear Window', year: 1954, genre: 'Thriller' },
+  { id: 84, name: 'To Kill a Mockingbird', year: 1962, genre: 'Drama' },
+  { id: 85, name: 'It’s a Wonderful Life', year: 1946, genre: 'Drama' },
+  { id: 86, name: 'The Sound of Music', year: 1965, genre: 'Musical' },
+  { id: 87, name: 'Roman Holiday', year: 1953, genre: 'Romance' },
+  { id: 88, name: 'Singin’ in the Rain', year: 1952, genre: 'Musical' },
+  { id: 89, name: 'The Apartment', year: 1960, genre: 'Comedy' },
+  { id: 90, name: 'The Maltese Falcon', year: 1931, genre: 'Crime' },
+  { id: 91, name: 'Sunset Boulevard', year: 1950, genre: 'Drama' },
+  { id: 92, name: 'The Killing', year: 1956, genre: 'Crime' },
+  { id: 93, name: 'The Deer Hunter', year: 1978, genre: 'Drama' },
+  { id: 94, name: 'The English Patient', year: 1996, genre: 'Romance' },
+  { id: 95, name: 'Chinatown', year: 1974, genre: 'Crime' },
+  { id: 96, name: 'Fargo', year: 1996, genre: 'Crime' },
+  { id: 97, name: 'The Iron Giant', year: 1999, genre: 'Animation' },
+  { id: 98, name: 'Mulan', year: 1998, genre: 'Animation' },
+  { id: 99, name: 'The Lego Movie', year: 2014, genre: 'Animation' },
+  { id: 100, name: 'Frozen', year: 2013, genre: 'Animation' },
+  { id: 101, name: 'The Nightmare Before Christmas', year: 1993, genre: 'Animation' },
+  { id: 102, name: 'A Beautiful Mind', year: 2001, genre: 'Biography' },
+  { id: 103, name: 'Good Will Hunting', year: 1997, genre: 'Drama' },
+  { id: 104, name: 'The Princess Bride', year: 1987, genre: 'Fantasy' },
+  { id: 105, name: 'Dead Poets Society', year: 1989, genre: 'Drama' },
+  { id: 106, name: 'Braveheart', year: 1995, genre: 'Action' },
+  { id: 107, name: 'The Untouchables', year: 1987, genre: 'Crime' },
+  { id: 108, name: 'L.A. Confidential', year: 1997, genre: 'Crime' },
+  { id: 109, name: 'The Hunt for Red October', year: 1990, genre: 'Action' },
+  { id: 110, name: 'A Few Good Men', year: 1992, genre: 'Drama' },
+  { id: 111, name: 'The Fugitive', year: 1993, genre: 'Thriller' },
+  { id: 112, name: 'Men in Black', year: 1997, genre: 'Sci-Fi' },
+  { id: 113, name: 'Jurassic Park', year: 1993, genre: 'Sci-Fi' },
+  { id: 114, name: 'Terminator', year: 1984, genre: 'Action' },
+  { id: 115, name: 'Die Hard', year: 1988, genre: 'Action' },
+  { id: 116, name: 'The Great Gatsby', year: 2013, genre: 'Drama' },
+  { id: 117, name: 'Fifty Shades of Grey', year: 2015, genre: 'Romance' },
+  { id: 118, name: 'Jurassic World', year: 2015, genre: 'Action' },
+  { id: 119, name: 'The Maze Runner', year: 2014, genre: 'Sci-Fi' },
+  { id: 120, name: 'The Equalizer', year: 2014, genre: 'Action' },
+  { id: 121, name: 'The Hunger Games', year: 2012, genre: 'Adventure' },
+  { id: 122, name: 'Divergent', year: 2014, genre: 'Sci-Fi' },
+  { id: 123, name: 'Edge of Tomorrow', year: 2014, genre: 'Sci-Fi' },
+  { id: 124, name: 'John Wick', year: 2014, genre: 'Action' },
+  { id: 125, name: 'Mad Max: Fury Road', year: 2015, genre: 'Action' },
+  { id: 126, name: 'The Conjuring', year: 2013, genre: 'Horror' },
+  { id: 127, name: 'Insidious', year: 2010, genre: 'Horror' },
+  { id: 128, name: 'Get Out', year: 2017, genre: 'Horror' },
+  { id: 129, name: 'It', year: 2017, genre: 'Horror' },
+  { id: 130, name: 'Hereditary', year: 2018, genre: 'Horror' },
+  { id: 131, name: 'A Quiet Place', year: 2018, genre: 'Horror' },
+  { id: 132, name: 'Bird Box', year: 2018, genre: 'Horror' },
+  { id: 133, name: 'The Invisible Man', year: 2020, genre: 'Horror' },
+  { id: 134, name: 'The Witch', year: 2015, genre: 'Horror' },
+  { id: 135, name: 'I Am Legend', year: 2007, genre: 'Sci-Fi' },
+  { id: 136, name: 'The Cabin in the Woods', year: 2012, genre: 'Horror' },
+  { id: 137, name: 'The Babadook', year: 2014, genre: 'Horror' },
+  { id: 138, name: 'The Others', year: 2001, genre: 'Horror' },
+  { id: 139, name: 'Donnie Darko', year: 2001, genre: 'Sci-Fi' },
+  { id: 140, name: 'Eternal Sunshine of the Spotless Mind', year: 2004, genre: 'Sci-Fi' },
+  { id: 141, name: 'Cloud Atlas', year: 2012, genre: 'Sci-Fi' },
+  { id: 142, name: 'Arrival', year: 2016, genre: 'Sci-Fi' },
+  { id: 143, name: 'Looper', year: 2012, genre: 'Sci-Fi' },
+  { id: 144, name: 'Star Wars: Episode VII - The Force Awakens', year: 2015, genre: 'Sci-Fi' },
+  { id: 145, name: 'Star Wars: Episode VIII - The Last Jedi', year: 2017, genre: 'Sci-Fi' },
+  { id: 146, name: 'Star Wars: Episode IX - The Rise of Skywalker', year: 2019, genre: 'Sci-Fi' },
+  { id: 147, name: 'Guardians of the Galaxy', year: 2014, genre: 'Action' },
+  { id: 148, name: 'Black Panther', year: 2018, genre: 'Action' },
+  { id: 149, name: 'Spider-Man: Far From Home', year: 2019, genre: 'Action' },
+  { id: 150, name: 'Wonder Woman', year: 2017, genre: 'Action' },
+  { id: 151, name: 'Doctor Strange', year: 2016, genre: 'Action' },
+  { id: 152, name: 'Aquaman', year: 2018, genre: 'Action' },
+  { id: 153, name: 'Shazam!', year: 2019, genre: 'Action' },
+  { id: 154, name: 'Jumanji: Welcome to the Jungle', year: 2017, genre: 'Adventure' },
+  { id: 155, name: 'The Jungle Book', year: 2016, genre: 'Adventure' },
+  { id: 156, name: 'Zootopia', year: 2016, genre: 'Animation' },
+  { id: 157, name: 'Moana', year: 2016, genre: 'Animation' },
+  { id: 158, name: 'Trolls', year: 2016, genre: 'Animation' },
+  { id: 159, name: 'Finding Dory', year: 2016, genre: 'Animation' },
+  { id: 160, name: 'Kung Fu Panda 3', year: 2016, genre: 'Animation' },
+  { id: 161, name: 'How to Train Your Dragon 2', year: 2014, genre: 'Animation' },
+  { id: 162, name: 'Despicable Me 2', year: 2013, genre: 'Animation' },
+  { id: 163, name: 'Frozen II', year: 2019, genre: 'Animation' },
+  { id: 164, name: 'Big Hero 6', year: 2014, genre: 'Animation' },
+  { id: 165, name: 'Wreck-It Ralph', year: 2012, genre: 'Animation' },
+  { id: 166, name: 'Ralph Breaks the Internet', year: 2018, genre: 'Animation' },
+  { id: 167, name: 'The Croods', year: 2013, genre: 'Animation' },
+  { id: 168, name: 'The Lego Batman Movie', year: 2017, genre: 'Animation' },
+  { id: 169, name: 'The Lego Ninjago Movie', year: 2017, genre: 'Animation' },
+  { id: 170, name: 'Paddington', year: 2014, genre: 'Comedy' },
+  { id: 171, name: 'Paddington 2', year: 2017, genre: 'Comedy' },
+  { id: 172, name: 'The Little Prince', year: 2015, genre: 'Animation' },
+  { id: 173, name: 'The Peanuts Movie', year: 2015, genre: 'Animation' },
+  { id: 174, name: 'Sing', year: 2016, genre: 'Animation' },
+  { id: 175, name: 'Tangled', year: 2010, genre: 'Animation' },
+  { id: 176, name: 'Pocahontas', year: 1995, genre: 'Animation' },
+  { id: 177, name: 'Alice in Wonderland', year: 1951, genre: 'Animation' },
+  { id: 178, name: 'Bambi', year: 1942, genre: 'Animation' },
+  { id: 179, name: 'Dumbo', year: 1941, genre: 'Animation' },
+  { id: 180, name: 'Fantasia', year: 1940, genre: 'Animation' },
+  { id: 181, name: 'Sleeping Beauty', year: 1959, genre: 'Animation' },
+  { id: 182, name: 'Cinderella', year: 1950, genre: 'Animation' },
+  { id: 183, name: 'Snow White and the Seven Dwarfs', year: 1937, genre: 'Animation' },
+  { id: 184, name: 'The Jungle Book', year: 1967, genre: 'Animation' },
+  { id: 185, name: 'The Aristocats', year: 1970, genre: 'Animation' },
+  { id: 186, name: 'Robin Hood', year: 1973, genre: 'Animation' },
+  { id: 187, name: 'The Rescuers', year: 1977, genre: 'Animation' },
+  { id: 188, name: 'The Fox and the Hound', year: 1981, genre: 'Animation' },
+  { id: 189, name: 'The Black Cauldron', year: 1985, genre: 'Animation' },
+  { id: 190, name: 'The Great Mouse Detective', year: 1986, genre: 'Animation' },
+  { id: 191, name: 'Oliver & Company', year: 1988, genre: 'Animation' },
+  { id: 192, name: 'Beauty and the Beast', year: 1991, genre: 'Animation' },
+  { id: 193, name: 'Aladdin', year: 1992, genre: 'Animation' },
+  { id: 194, name: 'The Lion King', year: 1994, genre: 'Animation' },
+  { id: 195, name: 'Pocahontas', year: 1995, genre: 'Animation' },
+  { id: 196, name: 'Mulan', year: 1998, genre: 'Animation' },
+  { id: 197, name: 'Tarzan', year: 1999, genre: 'Animation' },
+  { id: 198, name: 'Atlantis: The Lost Empire', year: 2001, genre: 'Animation' },
+  { id: 199, name: 'Lilo & Stitch', year: 2002, genre: 'Animation' },
+  { id: 200, name: 'Brother Bear', year: 2003, genre: 'Animation' }
+];
+
+    const searchInput = document.getElementById('search');
+    const genreSelect = document.getElementById('genre-select');
+    const yearSelect = document.getElementById('year-select');
+    const movieList = document.getElementById('movie-list');
+    const noResults = document.getElementById('no-results');
+    const favoriteList = document.getElementById('favorite-list');
+    const favoriteCount = document.getElementById('favorite-count');
+    const ratedCount = document.getElementById('rated-count');
+
+    let favorites = [];
+
+    function renderMovies(filteredMovies) {
+      movieList.innerHTML = '';
+
+      if (filteredMovies.length === 0) {
+        noResults.style.display = 'block';
+        movieList.style.display = 'none';
+      } else {
+        noResults.style.display = 'none';
+        movieList.style.display = 'block';
+
+        filteredMovies.sort((a, b) => a.name.localeCompare(b.name));
+
+        filteredMovies.forEach(movie => {
+          const li = document.createElement('li');
+          li.textContent = `${movie.name} (${movie.year}) - ${movie.genre}`;
+          const favoriteButton = document.createElement('button');
+          favoriteButton.className = 'btn-favorite';
+          favoriteButton.textContent = 'Add to Favorites';
+          favoriteButton.addEventListener('click', () => addToFavorites(movie));
+          li.appendChild(favoriteButton);
+          movieList.appendChild(li);
+        });
+      }
+    }
+
+    function renderFavorites() {
+      favoriteList.innerHTML = '';
+      let ratedMovies = 0;
+
+      favorites.forEach(fav => {
+        const li = document.createElement('li');
+        li.textContent = `${fav.name} (${fav.year}) - ${fav.genre}`;
+        const rateSelect = document.createElement('select');
+        rateSelect.className = 'rating-select';
+        rateSelect.innerHTML = `
+          <option value="">Rate</option>
+          <option value="1" ${fav.rating == 1 ? 'selected' : ''}>1</option>
+          <option value="2" ${fav.rating == 2 ? 'selected' : ''}>2</option>
+          <option value="3" ${fav.rating == 3 ? 'selected' : ''}>3</option>
+          <option value="4" ${fav.rating == 4 ? 'selected' : ''}>4</option>
+          <option value="5" ${fav.rating == 5 ? 'selected' : ''}>5</option>
+        `;
+        rateSelect.addEventListener('change', () => {
+          const rating = rateSelect.value;
+          updateFavorite(fav.id, rating);
+        });
+        li.appendChild(rateSelect);
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Remove from Favorites';
+        removeButton.className = 'btn-remove';
+        removeButton.addEventListener('click', () => removeFromFavorites(fav.id));
+        li.appendChild(removeButton);
+        const ratingColor = document.createElement('span');
+        ratingColor.className = `rating-color rating-color-${fav.rating || ''}`;
+        ratingColor.textContent = fav.rating || '';
+        li.appendChild(ratingColor);
+        favoriteList.appendChild(li);
+
+        if (fav.rating) ratedMovies++;
+      });
+
+      favoriteCount.textContent = `Favorites: ${favorites.length}`;
+      ratedCount.textContent = `Rated Movies: ${ratedMovies}`;
+    }
+
+    function addToFavorites(movie) {
+      if (!favorites.find(fav => fav.id === movie.id)) {
+        favorites.push({...movie, rating: null});
+        renderFavorites();
+      }
+    }
+
+    function removeFromFavorites(id) {
+      favorites = favorites.filter(fav => fav.id !== id);
+      renderFavorites();
+    }
+
+    function updateFavorite(id, rating) {
+      const favorite = favorites.find(fav => fav.id === id);
+      if (favorite) {
+        favorite.rating = rating;
+        renderFavorites();
+      }
+    }
+
+    function filterMovies() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const selectedGenre = genreSelect.value;
+      const selectedYear = yearSelect.value;
+
+      const filteredMovies = movies.filter(movie => {
+        const matchesName = movie.name.toLowerCase().startsWith(searchTerm);
+        const matchesGenre = selectedGenre ? movie.genre === selectedGenre : true;
+        const matchesYear = selectedYear ? movie.year.toString() === selectedYear : true;
+        return matchesName && matchesGenre && matchesYear;
+      });
+
+      renderMovies(filteredMovies);
+    }
+
+    function showAllMovies() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const selectedGenre = genreSelect.value;
+      const selectedYear = yearSelect.value;
+
+      const filteredMovies = movies.filter(movie => {
+        const matchesGenre = selectedGenre ? movie.genre === selectedGenre : true;
+        const matchesYear = selectedYear ? movie.year.toString() === selectedYear : true;
+        return matchesGenre && matchesYear && movie.name.toLowerCase().startsWith(searchTerm);
+      });
+
+      movieList.style.display = 'block';
+      noResults.style.display = 'none';
+      renderMovies(filteredMovies);
+    }
+
+    renderMovies(movies);
+    renderFavorites();
+  </script>
+</body>
+</html>
