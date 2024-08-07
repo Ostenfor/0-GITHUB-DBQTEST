@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 20px;
+            color: #343a40;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #495057;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .form-group textarea {
+            resize: vertical;
+        }
+        button {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 15px;
+            font-size: 1rem;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button.secondary {
+            background-color: #28a745;
+        }
+        button.secondary:hover {
+            background-color: #218838;
+        }
+        button.danger {
+            background-color: #dc3545;
+        }
+        button.danger:hover {
+            background-color: #c82333;
+        }
+        .task-list {
+            margin-top: 30px;
+        }
+        .task {
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .task .details {
+            margin-bottom: 15px;
+        }
+        .task .actions {
+            display: flex;
+            gap: 10px;
+        }
+        .task .actions button {
+            flex: 1;
+        }
+        .counters {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .counters p {
+            margin: 10px 0;
+            font-size: 1.1rem;
+            color: #6c757d;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #ffffff;
+            margin: 5% auto;
+            padding: 30px;
+            border: 1px solid #ced4da;
+            width: 80%;
+            max-width: 700px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .modal-content h2 {
+            margin-top: 0;
+            font-size: 1.8rem;
+            color: #343a40;
+        }
+        .close {
+            color: #343a40;
+            float: right;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Task Manager</h1>
+    <div class="form-group">
+        <label for="taskName">Task Name</label>
+        <input type="text" id="taskName">
+    </div>
+    <div class="form-group">
+        <label for="taskDescription">Task Description</label>
+        <textarea id="taskDescription" rows="4"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="taskSeverity">Severity</label>
+        <select id="taskSeverity">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="taskDueDate">Due Date</label>
+        <input type="date" id="taskDueDate">
+    </div>
+    <button onclick="addTask()">Add Task</button>
+    <button onclick="showPinnedTasks()">Show Pinned Tasks</button>
+    <button onclick="showDoneTasks()">Show Done Tasks</button>
+
+    <div class="task-list" id="taskList"></div>
+
+    <div class="counters">
+        <p>Total Tasks: <span id="totalTasks">0</span></p>
+    </div>
+</div>
+
+<div id="pinnedTasksModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('pinnedTasksModal')">&times;</span>
+        <h2>Pinned Tasks</h2>
+        <p>Total Favorite Tasks: <span id="pinnedTasksCount">0</span></p>
+        <div id="pinnedTaskList"></div>
+    </div>
+</div>
+
+<div id="doneTasksModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('doneTasksModal')">&times;</span>
+        <h2>Done Tasks</h2>
+        <div id="doneTaskList"></div>
+        <p>Total Done Tasks: <span id="doneTasksCount">0</span></p>
+    </div>
+</div>
+
+<div id="editTaskModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('editTaskModal')">&times;</span>
+        <h2>Edit Task</h2>
+        <div class="form-group">
+            <label for="editTaskName">Task Name</label>
+            <input type="text" id="editTaskName">
+        </div>
+        <div class="form-group">
+            <label for="editTaskDescription">Task Description</label>
+            <textarea id="editTaskDescription" rows="4"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="editTaskSeverity">Severity</label>
+            <select id="editTaskSeverity">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="editTaskDueDate">Due Date</label>
+            <input type="date" id="editTaskDueDate">
+        </div>
+        <button onclick="saveEditTask()">Save Changes</button>
+    </div>
+</div>
+
+<div id="commentModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('commentModal')">&times;</span>
+        <h2>Add Comment</h2>
+        <div class="form-group">
+            <label for="commentText">Comment</label>
+            <textarea id="commentText" rows="4"></textarea>
+        </div>
+        <button onclick="saveComment()">Save Comment</button>
+    </div>
+</div>
+
+<script>
+    let tasks = [];
+    let pinnedTasks = [];
+    let doneTasks = [];
+    let currentEditTaskId = null;
+    let isPinnedEdit = false;
+    let currentCommentTaskId = null;
+    let isPinnedComment = false;
+
+    function addTask() {
+        const name = document.getElementById('taskName').value;
+        const description = document.getElementById('taskDescription').value;
+        const severity = document.getElementById('taskSeverity').value;
+        const dueDate = document.getElementById('taskDueDate').value;
+
+        if (!name || !description || !dueDate) {
+            alert('Please fill in all fields.');
+            return;
+        }
+
+        const newTask = {
+            id: Date.now(),
+            name,
+            description,
+            severity,
+            dueDate,
+            comments: [],
+            favorite: false
+        };
+
+        tasks.push(newTask);
+        renderTasks();
+        updateCounters();
+
+        document.getElementById('taskName').value = '';
+        document.getElementById('taskDescription').value = '';
+        document.getElementById('taskSeverity').value = 'low';
+        document.getElementById('taskDueDate').value = '';
+    }
+
+    function renderTasks() {
+        const taskList = document.getElementById('taskList');
+        taskList.innerHTML = '';
+
+        const sortedTasks = tasks.concat(pinnedTasks).sort((a, b) => {
+            return severityOrder(b.severity) - severityOrder(a.severity) || new Date(a.dueDate) - new Date(b.dueDate);
+        });
+
+        sortedTasks.forEach(task => {
+            const taskElement = document.createElement('div');
+            taskElement.className = 'task';
+            taskElement.innerHTML = `
+                <div class="details">
+                    <p><strong>Name:</strong> ${task.name}</p>
+                    <p><strong>Description:</strong> ${task.description}</p>
+                    <p><strong>Severity:</strong> ${task.severity}</p>
+                    <p><strong>Due Date:</strong> ${task.dueDate}</p>
+                    <p><strong>Comments:</strong> ${task.comments.join(', ')}</p>
+                </div>
+                <div class="actions">
+                    <button onclick="openEditModal(${task.id}, false)">Edit</button>
+                    <button onclick="deleteTask(${task.id})" class="danger">Delete</button>
+                    <button onclick="toggleFavorite(${task.id}, false)">${task.favorite ? 'Unpin' : 'Pin'}</button>
+                    <button onclick="openCommentModal(${task.id}, false)">Add Comment</button>
+                    <button onclick="markTaskAsDone(${task.id})">Done</button>
+                </div>
+            `;
+            taskList.appendChild(taskElement);
+        });
+    }
+
+    function renderPinnedTasks() {
+        const pinnedTaskList = document.getElementById('pinnedTaskList');
+        pinnedTaskList.innerHTML = '';
+
+        pinnedTasks.forEach(task => {
+            const taskElement = document.createElement('div');
+            taskElement.className = 'task';
+            taskElement.innerHTML = `
+                <div class="details">
+                    <p><strong>Name:</strong> ${task.name}</p>
+                    <p><strong>Description:</strong> ${task.description}</p>
+                    <p><strong>Severity:</strong> ${task.severity}</p>
+                    <p><strong>Due Date:</strong> ${task.dueDate}</p>
+                    <p><strong>Comments:</strong> ${task.comments.join(', ')}</p>
+                </div>
+                <div class="actions">
+                    <button onclick="openEditModal(${task.id}, true)">Edit</button>
+                    <button onclick="deleteTask(${task.id}, true)" class="danger">Delete</button>
+                    <button onclick="toggleFavorite(${task.id}, true)">Unpin</button>
+                    <button onclick="openCommentModal(${task.id}, true)">Add Comment</button>
+                    <button onclick="markTaskAsDone(${task.id}, true)">Done</button>
+                </div>
+            `;
+            pinnedTaskList.appendChild(taskElement);
+        });
+    }
+
+    function renderDoneTasks() {
+        const doneTaskList = document.getElementById('doneTaskList');
+        doneTaskList.innerHTML = '';
+
+        doneTasks.forEach(task => {
+            const taskElement = document.createElement('div');
+            taskElement.className = 'task';
+            taskElement.innerHTML = `
+                <div class="details">
+                    <p><strong>Name:</strong> ${task.name}</p>
+                    <p><strong>Description:</strong> ${task.description}</p>
+                    <p><strong>Severity:</strong> ${task.severity}</p>
+                    <p><strong>Due Date:</strong> ${task.dueDate}</p>
+                    <p><strong>Comments:</strong> ${task.comments.join(', ')}</p>
+                </div>
+            `;
+            doneTaskList.appendChild(taskElement);
+        });
+
+        document.getElementById('doneTasksCount').innerText = doneTasks.length;
+    }
+
+    function severityOrder(severity) {
+        switch (severity) {
+            case 'high':
+                return 3;
+            case 'medium':
+                return 2;
+            case 'low':
+                return 1;
+            default:
+                return 0;
+        }
+    }
+
+    function toggleFavorite(taskId, isPinned) {
+        if (isPinned) {
+            const task = pinnedTasks.find(task => task.id === taskId);
+            if (task) {
+                task.favorite = !task.favorite;
+                if (!task.favorite) {
+                    pinnedTasks = pinnedTasks.filter(task => task.id !== taskId);
+                    tasks.push(task);
+                }
+            }
+        } else {
+            const task = tasks.find(task => task.id === taskId);
+            if (task) {
+                task.favorite = !task.favorite;
+                if (task.favorite) {
+                    tasks = tasks.filter(task => task.id !== taskId);
+                    pinnedTasks.push(task);
+                }
+            }
+        }
+        renderTasks();
+        renderPinnedTasks();
+        updateCounters();
+    }
+
+    function openEditModal(taskId, isPinned) {
+        const task = isPinned ? pinnedTasks.find(task => task.id === taskId) : tasks.find(task => task.id === taskId);
+        if (!task) return;
+
+        currentEditTaskId = taskId;
+        isPinnedEdit = isPinned;
+
+        document.getElementById('editTaskName').value = task.name;
+        document.getElementById('editTaskDescription').value = task.description;
+        document.getElementById('editTaskSeverity').value = task.severity;
+        document.getElementById('editTaskDueDate').value = task.dueDate;
+
+        document.getElementById('editTaskModal').style.display = 'block';
+    }
+
+    function saveEditTask() {
+        const task = isPinnedEdit ? pinnedTasks.find(task => task.id === currentEditTaskId) : tasks.find(task => task.id === currentEditTaskId);
+        if (!task) return;
+
+        task.name = document.getElementById('editTaskName').value;
+        task.description = document.getElementById('editTaskDescription').value;
+        task.severity = document.getElementById('editTaskSeverity').value;
+        task.dueDate = document.getElementById('editTaskDueDate').value;
+
+        renderTasks();
+        renderPinnedTasks();
+        closeModal('editTaskModal');
+    }
+
+    function deleteTask(taskId, isPinned = false) {
+        if (isPinned) {
+            pinnedTasks = pinnedTasks.filter(task => task.id !== taskId);
+        } else {
+            tasks = tasks.filter(task => task.id !== taskId);
+        }
+        renderTasks();
+        renderPinnedTasks();
+        updateCounters();
+    }
+
+    function openCommentModal(taskId, isPinned) {
+        currentCommentTaskId = taskId;
+        isPinnedComment = isPinned;
+        document.getElementById('commentModal').style.display = 'block';
+    }
+
+    function saveComment() {
+        const commentText = document.getElementById('commentText').value;
+        if (!commentText) return;
+
+        const task = isPinnedComment ? pinnedTasks.find(task => task.id === currentCommentTaskId) : tasks.find(task => task.id === currentCommentTaskId);
+        if (!task) return;
+
+        task.comments.push(commentText);
+        document.getElementById('commentText').value = '';
+
+        renderTasks();
+        renderPinnedTasks();
+        closeModal('commentModal');
+    }
+
+    function markTaskAsDone(taskId, isPinned = false) {
+        let task;
+        if (isPinned) {
+            task = pinnedTasks.find(task => task.id === taskId);
+            if (task) {
+                pinnedTasks = pinnedTasks.filter(task => task.id !== taskId);
+            }
+        } else {
+            task = tasks.find(task => task.id === taskId);
+            if (task) {
+                tasks = tasks.filter(task => task.id !== taskId);
+            }
+        }
+        if (task) {
+            doneTasks.push(task);
+        }
+        renderTasks();
+        renderPinnedTasks();
+        renderDoneTasks();
+        updateCounters();
+    }
+
+    function updateCounters() {
+        document.getElementById('totalTasks').innerText = tasks.length;
+        document.getElementById('pinnedTasksCount').innerText = pinnedTasks.length;
+    }
+
+    function showPinnedTasks() {
+        document.getElementById('pinnedTasksModal').style.display = 'block';
+        updateCounters(); // Update pinned tasks count
+    }
+
+    function showDoneTasks() {
+        document.getElementById('doneTasksModal').style.display = 'block';
+        renderDoneTasks();
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target.className === 'modal') {
+            event.target.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>
